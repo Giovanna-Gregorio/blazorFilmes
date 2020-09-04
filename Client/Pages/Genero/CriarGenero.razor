@@ -1,0 +1,24 @@
+@page "/genero/criar"
+
+<h3>Criar Gênero</h3>
+
+<EditForm Model="genero" OnValidSubmit="Create">
+    <DataAnnotationsValidator/>
+    <div class="form-group">
+        <label>Gênero: </label>
+        <div>
+            <InputText class="form-control" @bind-Value="@genero.Name" />
+            <ValidationMessage For="@( () => genero.Name )" />
+        </div>
+    </div>
+    <button class="btn btn-success" type="submit">Salvar</button>
+</EditForm>
+
+@code {
+    Genero genero = new Genero();
+
+    private void Create()
+    {
+        Console.WriteLine(genero.Name);
+    }
+}
