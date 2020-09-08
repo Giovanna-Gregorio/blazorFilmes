@@ -8,7 +8,10 @@
         <div class="form-group col-md-3">
             <label>Título</label>
             <div>
-                <InputSelect class="form-control" @bind-Value="@registro.Title"></InputSelect>
+                <InputSelect class="form-control" @bind-Value="@registro.Title">
+                    <option value="">Escolha um</option>
+                    <option value="Exploration">Mr</option>
+                </InputSelect>
                 <ValidationMessage For="@( () => registro.Title )" />
             </div>
         </div>
@@ -28,7 +31,7 @@
         </div>
         <div class="form-group col-md-6">
             <label>Data de nascimento</label>
-            <InputDate class="form-control" @bind-Value="@registro.DateBirth" /> 
+            <InputDate placeholder="dd/mm/yyyy" class="form-control" @bind-Value="@registro.DateBirth"/> 
             <ValidationMessage For="@( () => registro.DateBirth )" />
         </div>
         <div class="form-group col-md-6">
@@ -41,27 +44,27 @@
         <div class="form-group col-md-6">
             <label>Senha</label>
             <div>
-                <InputText class="form-control" @bind-Value="@registro.Password" />
+                <InputText type="password" class="form-control" @bind-Value="@registro.Password" />
                 <ValidationMessage For="@( () => registro.Password )" />
             </div>
         </div>
         <div class="form-group col-md-6">
             <label>Confirmação da senha</label>
             <div>
-                <InputText class="form-control" @bind-Value="@registro.ConfirmPassword" />
+                <InputText type="password" class="form-control" @bind-Value="@registro.ConfirmPassword"/>
                 <ValidationMessage For="@( () => registro.ConfirmPassword )" />
             </div>
         </div>
         <div class="form-group col-md-12">
-            <InputCheckbox class="form-check-input"  @bind-Value="@registro.Accept"/>
-            <ValidationMessage For="@( () => registro.Accept )" />
+            <InputCheckbox class="form-check-input" @bind-Value="@registro.Accept"/>
             <label>Aceitar os termos e condições</label>
+            <ValidationMessage For="@( () => registro.Accept )" />
         </div>
     </div>
     <div class="row justify-content-md-center">
         <div>
             <button class="btn btn-success" type="submit">Registrar</button>
-            <button class="btn btn-secondary">Cancelar</button>
+            <button class="btn btn-secondary" type="reset">Cancelar</button>
         </div>
     </div>
 </EditForm>
@@ -72,5 +75,11 @@
     private void Create()
     {
         Console.WriteLine(registro.Title);
+        Console.WriteLine(registro.FirstName);
+        Console.WriteLine(registro.LastName);
+        Console.WriteLine(registro.DateBirth);
+        Console.WriteLine(registro.Email);
+        Console.WriteLine(registro.Password);
+        Console.WriteLine(registro.ConfirmPassword);
     }
 }

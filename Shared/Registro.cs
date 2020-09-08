@@ -15,6 +15,7 @@ namespace BlazorFilmes.Shared
         public string LastName { get; set; }
 
         [Required(ErrorMessage = "Data de nascimento é obrigatório")] 
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime DateBirth { get; set; }
 
         [Required(ErrorMessage = "Email é obrigatório")] 
@@ -29,7 +30,8 @@ namespace BlazorFilmes.Shared
         [Compare(nameof(Password), ErrorMessage = "As senhas não correspondem")]
         public string ConfirmPassword { get; set; }
 
-        [Required(ErrorMessage = "É necessário aceitar os termos")]
+        //[Required(ErrorMessage = "É necessário aceitar os termos")]
+        [Range(typeof(bool), "true", "true", ErrorMessage = "É necessário aceitar os termos")]
         public bool Accept { get; set; }
     }
 }
