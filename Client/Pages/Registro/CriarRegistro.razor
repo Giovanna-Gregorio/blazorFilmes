@@ -9,8 +9,9 @@
             <label>Título</label>
             <div>
                 <InputSelect class="form-control" @bind-Value="@registro.Title">
-                    <option value="">Escolha um</option>
-                    <option value="Exploration">Mr</option>
+                    <option value=""></option>
+                    <option value="Sr">Sr</option>
+                    <option value="Sra">Sra</option>
                 </InputSelect>
                 <ValidationMessage For="@( () => registro.Title )" />
             </div>
