@@ -1,0 +1,86 @@
+@page "/usuario/criar"
+
+<h3>Cadastro de usuário</h3>
+
+<EditForm Model="usuario" OnValidSubmit="Create">
+    <DataAnnotationsValidator/>
+    <div class="form-row">
+        <div class="form-group col-md-3">
+            <label>Título</label>
+            <div>
+                <InputSelect class="form-control" @bind-Value="@usuario.Title">
+                    <option value=""></option>
+                    <option value="Sr">Sr</option>
+                    <option value="Sra">Sra</option>
+                </InputSelect>
+                <ValidationMessage For="@( () => usuario.Title )" />
+            </div>
+        </div>
+        <div class="form-group col-md-5">
+            <label>Nome</label>
+            <div>
+                <InputText class="form-control" @bind-Value="@usuario.FirstName" />
+                <ValidationMessage For="@( () => usuario.FirstName )" />
+            </div>
+        </div>
+        <div class="form-group col-md-4">
+            <label>Sobrenome</label>
+            <div>
+                <InputText class="form-control" @bind-Value="@usuario.LastName" />
+                <ValidationMessage For="@( () => usuario.LastName )" />
+            </div>
+        </div>
+        <div class="form-group col-md-6">
+            <label>Data de nascimento</label>
+            <InputDate placeholder="dd/mm/yyyy" class="form-control" @bind-Value="@usuario.DateBirth"/> 
+            <ValidationMessage For="@( () => usuario.DateBirth )" />
+        </div>
+        <div class="form-group col-md-6">
+            <label>Email</label>
+            <div>
+                <InputText class="form-control" @bind-Value="@usuario.Email" />
+                <ValidationMessage For="@( () => usuario.Email )" />
+            </div>
+        </div>
+        <div class="form-group col-md-6">
+            <label>Senha</label>
+            <div>
+                <InputText type="password" class="form-control" @bind-Value="@usuario.Password" />
+                <ValidationMessage For="@( () => usuario.Password )" />
+            </div>
+        </div>
+        <div class="form-group col-md-6">
+            <label>Confirmação da senha</label>
+            <div>
+                <InputText type="password" class="form-control" @bind-Value="@usuario.ConfirmPassword"/>
+                <ValidationMessage For="@( () => usuario.ConfirmPassword )" />
+            </div>
+        </div>
+        <div class="form-group col-md-12">
+            <InputCheckbox class="form-check-input" @bind-Value="@usuario.Accept"/>
+            <label>Aceitar os termos e condições</label>
+            <ValidationMessage For="@( () => usuario.Accept )" />
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <div>
+            <button class="btn btn-success" type="submit">Registrar</button>
+            <button class="btn btn-secondary" type="reset">Cancelar</button>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    Usuario usuario = new Usuario();
+
+    private void Create()
+    {
+        Console.WriteLine(usuario.Title);
+        Console.WriteLine(usuario.FirstName);
+        Console.WriteLine(usuario.LastName);
+        Console.WriteLine(usuario.DateBirth);
+        Console.WriteLine(usuario.Email);
+        Console.WriteLine(usuario.Password);
+        Console.WriteLine(usuario.ConfirmPassword);
+    }
+}

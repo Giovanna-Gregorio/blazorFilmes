@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BlazorFilmes.Shared
 {
-    public class Registro
+    public class Usuario
     {      
         [Required(ErrorMessage = "Título é obrigatório")] 
         public string Title { get; set; }     
