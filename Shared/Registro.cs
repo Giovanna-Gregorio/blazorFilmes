@@ -16,7 +16,7 @@ namespace BlazorFilmes.Shared
 
         [Required(ErrorMessage = "Data de nascimento é obrigatório")] 
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
-        public DateTime DateBirth { get; set; }
+        public DateTime? DateBirth { get; set; }
 
         [Required(ErrorMessage = "Email é obrigatório")] 
         [EmailAddress(ErrorMessage = "Email inválido")]
