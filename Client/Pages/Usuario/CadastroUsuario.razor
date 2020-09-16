@@ -1,8 +1,35 @@
 @page "/usuario/criar"
+@using System.Net.Http
+@inject HttpClient Http
 
 <h3>Cadastro de usuário</h3>
 
-<EditForm Model="usuario" OnValidSubmit="Create">
+<div class="card body">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">First</th>
+                <th scope="col">Last</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in listaUsuario)
+            {
+                <tr>
+                    <td>@item.Title</td>
+                    <td>@item.FirstName</td>
+                    <td>@item.LastName</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<hr> 
+<br/>
+
+<EditForm Model="usuario" OnValidSubmit="HandleValidSubmit" OnReset="HandleReset">
     <DataAnnotationsValidator/>
     <div class="form-row">
         <div class="form-group col-md-3">
@@ -57,9 +84,11 @@
             </div>
         </div>
         <div class="form-group col-md-12">
-            <InputCheckbox class="form-check-input" @bind-Value="@usuario.Accept"/>
-            <label>Aceitar os termos e condições</label>
-            <ValidationMessage For="@( () => usuario.Accept )" />
+            <div>
+                <InputCheckbox class="form-check-input" @bind-Value="@usuario.Accept"/>
+                <label>Aceitar os termos e condições</label>
+                <ValidationMessage For="@( () => usuario.Accept )" />
+            </div>
         </div>
     </div>
     <div class="row justify-content-md-center">
@@ -71,16 +100,28 @@
 </EditForm>
 
 @code {
-    Usuario usuario = new Usuario();
+    private List<Usuario> listaUsuario = new List<Usuario>();
+    private Usuario usuario = new Usuario();
+    private EditContext editContext { get; set; }
 
-    private void Create()
+    protected override async Task OnInitializedAsync()
     {
-        Console.WriteLine(usuario.Title);
-        Console.WriteLine(usuario.FirstName);
-        Console.WriteLine(usuario.LastName);
-        Console.WriteLine(usuario.DateBirth);
-        Console.WriteLine(usuario.Email);
-        Console.WriteLine(usuario.Password);
-        Console.WriteLine(usuario.ConfirmPassword);
+        var users = await Http.GetFromJsonAsync<List<Usuario>>("/Usuario/List");
+        foreach (var item in users)
+        {
+            listaUsuario.Add(item);
+        }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        //Enviar dados para o controller no backend
+        var teste = await Http.PostAsJsonAsync("/Usuario/Create", usuario);
+    }
+
+    private void HandleReset()
+    {
+        usuario = new Usuario();
+        editContext = new EditContext(usuario);
     }
 }
