@@ -4,7 +4,7 @@ using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
-namespace Server.Controllers
+namespace BlazorFilmes.Server.Controllers
 {
     [ApiController]
     [Route("[controller]")]
