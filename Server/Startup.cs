@@ -22,7 +22,7 @@ namespace BlazorFilmes.Server
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDBContext>(options => options
-                .UseMySql(Configuration.GetConnectionString("BlazorFilmesServerContext")));
+                .UseMySql(Configuration.GetConnectionString("BlazorFilmesContext")));
             services.AddControllersWithViews();
             services.AddRazorPages();
         }

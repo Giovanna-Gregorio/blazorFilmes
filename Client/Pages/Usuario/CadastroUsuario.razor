@@ -1,33 +1,8 @@
-@page "/usuario/criar"
+@page "/usuario/cadastro"
 @using System.Net.Http
 @inject HttpClient Http
 
 <h3>Cadastro de usuário</h3>
-
-<div class="card body">
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Title</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in listaUsuario)
-            {
-                <tr>
-                    <td>@item.Title</td>
-                    <td>@item.FirstName</td>
-                    <td>@item.LastName</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
-
-<hr> 
-<br/>
 
 <EditForm Model="usuario" OnValidSubmit="HandleValidSubmit" OnReset="HandleReset">
     <DataAnnotationsValidator/>
@@ -83,7 +58,7 @@
                 <ValidationMessage For="@( () => usuario.ConfirmPassword )" />
             </div>
         </div>
-        <div class="form-group col-md-12">
+        <div class="form-group col-md-12 form-check">
             <div>
                 <InputCheckbox class="form-check-input" @bind-Value="@usuario.Accept"/>
                 <label>Aceitar os termos e condições</label>
@@ -100,23 +75,14 @@
 </EditForm>
 
 @code {
-    private List<Usuario> listaUsuario = new List<Usuario>();
     private Usuario usuario = new Usuario();
     private EditContext editContext { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        var users = await Http.GetFromJsonAsync<List<Usuario>>("/Usuario/List");
-        foreach (var item in users)
-        {
-            listaUsuario.Add(item);
-        }
-    }
 
     private async Task HandleValidSubmit()
     {
         //Enviar dados para o controller no backend
         var teste = await Http.PostAsJsonAsync("/Usuario/Create", usuario);
+        //NavigationManager.NavigateTo("usuario/list");
     }
 
     private void HandleReset()
