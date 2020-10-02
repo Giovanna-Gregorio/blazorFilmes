@@ -2,77 +2,80 @@
 @using System.Net.Http
 @inject HttpClient Http
 
-<h3>Cadastro de usuário</h3>
-
-<EditForm Model="usuario" OnValidSubmit="HandleValidSubmit" @onreset="HandleReset">
-    <DataAnnotationsValidator/>
-    <div class="form-row">
-        <div class="form-group col-md-3">
-            <label>Título</label>
-            <div>
-                <InputSelect class="form-control" @bind-Value="@usuario.Title">
-                    <option value=""></option>
-                    <option value="Sr">Sr</option>
-                    <option value="Sra">Sra</option>
-                </InputSelect>
-                <ValidationMessage For="@( () => usuario.Title )" />
+<div class="card m-3">
+    <h4 class="card-header">Cadastro de usuário</h4>
+    <div class="card-body">
+        <EditForm Model="usuario" OnValidSubmit="HandleValidSubmit" @onreset="HandleReset">
+            <DataAnnotationsValidator/>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label>Título</label>
+                    <div>
+                        <InputSelect class="form-control" @bind-Value="@usuario.Title">
+                            <option value=""></option>
+                            <option value="Sr">Sr</option>
+                            <option value="Sra">Sra</option>
+                        </InputSelect>
+                        <ValidationMessage For="@( () => usuario.Title )" />
+                    </div>
+                </div>
+                <div class="form-group col-md-5">
+                    <label>Nome</label>
+                    <div>
+                        <InputText class="form-control" @bind-Value="@usuario.FirstName" />
+                        <ValidationMessage For="@( () => usuario.FirstName )" />
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
+                    <label>Sobrenome</label>
+                    <div>
+                        <InputText class="form-control" @bind-Value="@usuario.LastName" />
+                        <ValidationMessage For="@( () => usuario.LastName )" />
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Data de nascimento</label>
+                    <InputDate placeholder="dd/mm/yyyy" class="form-control" @bind-Value="@usuario.DateBirth"/> 
+                    <ValidationMessage For="@( () => usuario.DateBirth )" />
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Email</label>
+                    <div>
+                        <InputText class="form-control" @bind-Value="@usuario.Email" />
+                        <ValidationMessage For="@( () => usuario.Email )" />
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Senha</label>
+                    <div>
+                        <InputText type="password" class="form-control" @bind-Value="@usuario.Password" />
+                        <ValidationMessage For="@( () => usuario.Password )" />
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Confirmação da senha</label>
+                    <div>
+                        <InputText type="password" class="form-control" @bind-Value="@usuario.ConfirmPassword"/>
+                        <ValidationMessage For="@( () => usuario.ConfirmPassword )" />
+                    </div>
+                </div>
+                <div class="form-group col-md-12 form-check">
+                    <div>
+                        <InputCheckbox class="form-check-input" @bind-Value="@usuario.Accept"/>
+                        <label>Aceitar os termos e condições</label>
+                        <ValidationMessage For="@( () => usuario.Accept )" />
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="form-group col-md-5">
-            <label>Nome</label>
-            <div>
-                <InputText class="form-control" @bind-Value="@usuario.FirstName" />
-                <ValidationMessage For="@( () => usuario.FirstName )" />
+            <div class="row justify-content-md-center">
+                <div>
+                    <button class="btn btn-success" type="submit">Registrar</button>
+                    <button class="btn btn-secondary" type="reset">Cancelar</button>
+                </div>
             </div>
-        </div>
-        <div class="form-group col-md-4">
-            <label>Sobrenome</label>
-            <div>
-                <InputText class="form-control" @bind-Value="@usuario.LastName" />
-                <ValidationMessage For="@( () => usuario.LastName )" />
-            </div>
-        </div>
-        <div class="form-group col-md-6">
-            <label>Data de nascimento</label>
-            <InputDate placeholder="dd/mm/yyyy" class="form-control" @bind-Value="@usuario.DateBirth"/> 
-            <ValidationMessage For="@( () => usuario.DateBirth )" />
-        </div>
-        <div class="form-group col-md-6">
-            <label>Email</label>
-            <div>
-                <InputText class="form-control" @bind-Value="@usuario.Email" />
-                <ValidationMessage For="@( () => usuario.Email )" />
-            </div>
-        </div>
-        <div class="form-group col-md-6">
-            <label>Senha</label>
-            <div>
-                <InputText type="password" class="form-control" @bind-Value="@usuario.Password" />
-                <ValidationMessage For="@( () => usuario.Password )" />
-            </div>
-        </div>
-        <div class="form-group col-md-6">
-            <label>Confirmação da senha</label>
-            <div>
-                <InputText type="password" class="form-control" @bind-Value="@usuario.ConfirmPassword"/>
-                <ValidationMessage For="@( () => usuario.ConfirmPassword )" />
-            </div>
-        </div>
-        <div class="form-group col-md-12 form-check">
-            <div>
-                <InputCheckbox class="form-check-input" @bind-Value="@usuario.Accept"/>
-                <label>Aceitar os termos e condições</label>
-                <ValidationMessage For="@( () => usuario.Accept )" />
-            </div>
-        </div>
+        </EditForm>
     </div>
-    <div class="row justify-content-md-center">
-        <div>
-            <button class="btn btn-success" type="submit">Registrar</button>
-            <button class="btn btn-secondary" type="reset">Cancelar</button>
-        </div>
-    </div>
-</EditForm>
+</div>
 
 @code {
     private Usuario usuario = new Usuario();

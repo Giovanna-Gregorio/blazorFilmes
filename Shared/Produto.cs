@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace BlazorFilmes.Shared
@@ -10,6 +11,7 @@ namespace BlazorFilmes.Shared
         [Required(ErrorMessage = "Descrição é obrigatório")]
         public string Descricao { get; set; }
         [Required(ErrorMessage = "Valor é obrigatório")]
+        [Range(1, Double.PositiveInfinity, ErrorMessage = "Valor deve ser maior que zero")]
         public decimal Valor { get; set; }
     }
 }
