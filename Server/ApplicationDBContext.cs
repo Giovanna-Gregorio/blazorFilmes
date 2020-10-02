@@ -10,5 +10,6 @@ namespace BlazorFilmes.Server
         }
 
         public DbSet<Usuario> Usuario { get; set; }
+        public DbSet<Produto> Produto { get; set; }
     }
 }

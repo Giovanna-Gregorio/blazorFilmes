@@ -4,7 +4,7 @@
 
 <h3>Cadastro de usuário</h3>
 
-<EditForm Model="usuario" OnValidSubmit="HandleValidSubmit" OnReset="HandleReset">
+<EditForm Model="usuario" OnValidSubmit="HandleValidSubmit" @onreset="HandleReset">
     <DataAnnotationsValidator/>
     <div class="form-row">
         <div class="form-group col-md-3">
