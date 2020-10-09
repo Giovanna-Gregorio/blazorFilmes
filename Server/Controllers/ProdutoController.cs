@@ -24,10 +24,17 @@ namespace BlazorFilmes.Server.Controllers
             var produto = await db.Produto.ToListAsync();
             return Ok(produto);
         }
+        [HttpGet]
+        [Route("GetById")]
+        public async Task<IActionResult> Get([FromQuery] string id)
+        {
+            var produto = await db.Produto.SingleOrDefaultAsync(x => x.Id == Convert.ToInt32(id));
+            return Ok(produto);
+        }
 
         [HttpPost]
         [Route("Create")]
-        public async Task<ActionResult> Post([FromBody]Produto produto)
+        public async Task<ActionResult> Post([FromBody] Produto produto)
         {
             //TODO: Adicionar novo produto (produto) uma lista
             try
@@ -43,10 +50,49 @@ namespace BlazorFilmes.Server.Controllers
                 await db.SaveChangesAsync();
                 return Ok();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return View(e);
-            }    
+            }
+        }
+
+        [HttpPut]
+        [Route("Update")]
+        public async Task<IActionResult> Put([FromBody] Produto produto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            db.Entry(produto).State = EntityState.Modified;
+            try
+            {
+                await db.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                throw (ex);
+            }
+            return NoContent();
+        }
+
+        [HttpDelete]
+        [Route("Delete/{id}")]
+        public async Task<ActionResult<Produto>> Delete(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var produto = await db.Produto.FindAsync(id);
+            if (produto == null)
+            {
+                return NotFound();
+            }
+            db.Produto.Remove(produto);
+            await db.SaveChangesAsync();
+            return produto;
         }
     }
 }

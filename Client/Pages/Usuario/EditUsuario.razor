@@ -1,12 +1,12 @@
-@page "/usuario/cadastro"
+@page "/usuario/EditUsuario/{item}"
 @using System.Net.Http
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
 
 <div class="card m-3">
-    <h4 class="card-header">Cadastro de usuário</h4>
+    <h4 class="card-header">Editar Dados</h4>
     <div class="card-body">
-        <EditForm Model="usuario" OnValidSubmit="HandleValidSubmit" @onreset="HandleReset">
+        <EditForm Model="@usuario" OnValidSubmit="HandleValidSubmit" @onreset="HandleReset">
             <DataAnnotationsValidator/>
             <div class="form-row">
                 <div class="form-group col-md-3">
@@ -70,7 +70,7 @@
             </div>
             <div class="row justify-content-md-center">
                 <div>
-                    <button class="btn btn-success" type="submit">Registrar</button>
+                    <button class="btn btn-success" type="submit">Atualizar</button>
                     <button class="btn btn-secondary" type="reset">Cancelar</button>
                 </div>
             </div>
@@ -82,10 +82,19 @@
     private Usuario usuario = new Usuario();
     private EditContext editContext { get; set; }
 
+    [Parameter]
+    public string Item { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var itemId = Item;
+        usuario = await Http.GetFromJsonAsync<Usuario>($"/Usuario/GetById?id={itemId}");
+        editContext = new EditContext(usuario);
+    }
+
     private async Task HandleValidSubmit()
     {
-        //Enviar dados para o controller no backend
-        var teste = await Http.PostAsJsonAsync("/Usuario/Create", usuario);
+        await Http.PutAsJsonAsync("/Usuario/Update", usuario);
         NavigationManager.NavigateTo("usuario/list");
     }
 

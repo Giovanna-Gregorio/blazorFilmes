@@ -1,12 +1,12 @@
-@page "/produto/cadastro"
+@page "/produto/EditProduto/{item}"
 @using System.Net.Http
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
 
 <div class="card m-3">
-    <h4 class="card-header">Cadastro de Produto</h4>
+    <h4 class="card-header">Atualizar Produto</h4>
     <div class="card-body">
-        <EditForm Model="produto" OnValidSubmit="HandleValidSubmit" @onreset="HandleReset">
+        <EditForm Model="@produto" OnValidSubmit="HandleValidSubmit" @onreset="HandleReset">
             <DataAnnotationsValidator/>
             <div class="form-row">
                 <div class="form-group col-md-6">
@@ -26,14 +26,14 @@
                 <div class="form-group col-md-12">
                     <label>Valor</label>
                     <div>
-                        <InputNumber class="form-control" @bind-Value="@produto.Valor" @bind-Value:format="F2" />
+                        <InputNumber class="form-control" @bind-Value="@produto.Valor" />
                         <ValidationMessage For="@( () => produto.Valor )" />
                     </div>
                 </div>
             </div>
             <div class="row justify-content-md-center">
                 <div>
-                    <button class="btn btn-success" type="submit">Cadastrar</button>
+                    <button class="btn btn-success" type="submit">Atualizar</button>
                     <button class="btn btn-secondary" type="reset">Cancelar</button>
                 </div>
             </div>
@@ -45,11 +45,20 @@
     private Produto produto = new Produto();
     private EditContext editContext { get; set; }
 
+    [Parameter]
+    public string Item { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var itemId = Item;
+        produto = await Http.GetFromJsonAsync<Produto>($"/Produto/GetById?id={itemId}");
+        editContext = new EditContext(produto);
+    }
+
     private async Task HandleValidSubmit()
     {
-        //Enviar dados para o controller no backend
-        var teste = await Http.PostAsJsonAsync("/Produto/Create", produto);
-        NavigationManager.NavigateTo("Produto/list");
+        await Http.PutAsJsonAsync("/Produto/Update", produto);
+        NavigationManager.NavigateTo("produto/list");
     }
 
     private void HandleReset()

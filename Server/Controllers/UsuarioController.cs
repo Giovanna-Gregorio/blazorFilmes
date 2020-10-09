@@ -26,6 +26,14 @@ namespace BlazorFilmes.Server.Controllers
             return Ok(users);
         }
 
+        [HttpGet]
+        [Route("GetById")]
+        public async Task<IActionResult> Get([FromQuery] string id)
+        {
+            var user = await db.Usuario.SingleOrDefaultAsync(x => x.Id == Convert.ToInt32(id));
+            return Ok(user);
+        }
+
         //Action/Metodo para adicionar/Post um Usuário
         [HttpPost]
         [Route("Create")]
@@ -54,6 +62,45 @@ namespace BlazorFilmes.Server.Controllers
             {
                 return View(e);
             }    
+        }
+
+        [HttpPut]
+        [Route("Update")]
+        public async Task<IActionResult> Put([FromBody] Usuario usuario)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            db.Entry(usuario).State = EntityState.Modified;
+            try
+            {
+                await db.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                throw (ex);
+            }
+            return NoContent();
+        }
+
+        [HttpDelete]
+        [Route("Delete/{id}")]
+        public async Task<ActionResult<Usuario>>Delete(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var usuario = await db.Usuario.FindAsync(id);
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+            db.Usuario.Remove(usuario);
+            await db.SaveChangesAsync();
+            return usuario;
         }
     }
 }
